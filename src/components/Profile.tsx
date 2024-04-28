@@ -27,7 +27,7 @@ export default function Profile() {
           <div className="profile__name">{user?.displayName || "사용자"}</div>
         </div>
       </div>
-      <div role="presentaion" className="profile__logout" onClick={onSignOut}>
+      <div role="presentation" className="profile__logout" onClick={onSignOut}>
         로그아웃
       </div>
     </div>
