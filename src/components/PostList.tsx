@@ -61,7 +61,7 @@ export default function PostList({ hasNavigation = true }: PostListProps) {
         {posts?.length > 0 ? (
           posts?.map((post, index) => (
             <div key={post?.id} className="post__box">
-              <Link to={`/posts/${index}`}>
+              <Link to={`/posts/${post?.id}`}>
                 <div className="post__profile-box">
                   <div className="post__profile" />
                   <div className="post__author-name">{post?.email}</div>
