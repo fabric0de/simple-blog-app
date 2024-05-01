@@ -5,6 +5,7 @@ import { deleteDoc, doc, getDoc } from "firebase/firestore";
 import { db } from "firebaseApp";
 import Loader from "./Loader";
 import { toast } from "react-toastify";
+import Comments from "./Comments";
 
 export default function PostDatail() {
   const [post, setPost] = useState<PostProps | null>(null);
@@ -66,6 +67,7 @@ export default function PostDatail() {
                 {post?.content}
               </div>
             </div>
+            <Comments post={post} getPost={getPost} />
           </>
         ) : (
           <Loader />
