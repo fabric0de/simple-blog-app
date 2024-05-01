@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { PostProps } from "./PostList";
-import { doc, getDoc } from "firebase/firestore";
+import { deleteDoc, doc, getDoc } from "firebase/firestore";
 import { db } from "firebaseApp";
 import Loader from "./Loader";
+import { toast } from "react-toastify";
 
 export default function PostDatail() {
   const [post, setPost] = useState<PostProps | null>(null);
   const params = useParams();
+  const navigate = useNavigate();
 
   const getPost = async (id: string) => {
     if (id) {
@@ -18,8 +20,13 @@ export default function PostDatail() {
     }
   };
 
-  const handleDelete = () => {
-    console.log("delete");
+  const handleDelete = async () => {
+    const confirm = window.confirm("정말 삭제하시겠습니까?");
+    if (confirm && post && post?.id) {
+      await deleteDoc(doc(db, "posts", post?.id));
+      toast.success("게시글이 삭제되었습니다.");
+      navigate("/");
+    }
   };
 
   useEffect(() => {
@@ -41,6 +48,9 @@ export default function PostDatail() {
                 <div className="post__date">{post?.createdAt}</div>
               </div>
               <div className="post__utils-box">
+                {post?.category && (
+                  <div className="post__category"> {post?.category}</div>
+                )}
                 <div
                   className="post__delete"
                   role="presentation"
@@ -49,7 +59,7 @@ export default function PostDatail() {
                   삭제
                 </div>
                 <div className="post__edit">
-                  <Link to="/posts/edit/1">수정</Link>
+                  <Link to={`/posts/edit/${post?.id}`}>수정</Link>
                 </div>
               </div>
               <div className="post__text post__text--pre-wrap">
